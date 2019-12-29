@@ -1,12 +1,9 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
-	"os"
 )
 
 func main() {
@@ -15,19 +12,18 @@ func main() {
 }
 
 func onLoad(w http.ResponseWriter, r *http.Request) {
-	// for i := 1; i < 5; i++ {
-	// 	fmt.Fprintln(w, "Calling /load endpoint")
-	// }
-	var buffer = new(bytes.Buffer)
-	encoder := json.NewEncoder(buffer)
-	var answer = Answer{direction: "LEFT"}
-	fmt.Println(answer)
-	// fmt.Println(encoder.Encode(answer))
-	encoder.Encode(answer)
-	io.Copy(os.Stdout, buffer)
-	// fmt.Fprintln(w, buffr)
+
+	answer := Answer{Direction: "LEFT"}
+	b, err := json.Marshal(answer)
+
+	if err != nil {
+		fmt.Println("ERROR")
+	} else {
+		fmt.Fprintln(w, string(b))
+		fmt.Println(string(b))
+	}
 }
 
 type Answer struct {
-	direction string
+	Direction string
 }
