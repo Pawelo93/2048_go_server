@@ -13,6 +13,14 @@ func main() {
 
 func onLoad(w http.ResponseWriter, r *http.Request) {
 
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+	fmt.Fprintf(w, "Post from website! r.PostFrom = %v\n", r.PostForm)
+	name := r.FormValue("name")
+	fmt.Fprintf(w, "Name = %s\n", name)
+
 	answer := Answer{Direction: "LEFT"}
 	b, err := json.Marshal(answer)
 
